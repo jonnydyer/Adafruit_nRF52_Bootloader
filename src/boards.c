@@ -304,6 +304,12 @@ static uint16_t pixels_pattern[NEOPIXELS_NUMBER*BYTE_PER_PIXEL * 8 + 2];
 // use PWM1 for neopixel
 void neopixel_init(void)
 {
+	// First enable 3.3v supply to high consumption portion of board
+#ifdef NEOPIXEL_EN
+  nrf_gpio_cfg_output(NEOPIXEL_EN);
+  nrf_gpio_pin_write(NEOPIXEL_EN, 0);
+#endif
+
   // To support both the SoftDevice + Neopixels we use the EasyDMA
   // feature from the NRF25. However this technique implies to
   // generate a pattern and store it on the memory. The actual
